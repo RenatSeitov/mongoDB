@@ -1,0 +1,12 @@
+1)var map = function() { var key={URL:this.URL}; emit(key, {dateOnServer: this.dateOnServer});};
+var reduce = function(key,values) { var sum=0; values.forEach(function(value) {sum+=value['dateOnServer'];}); return{dateOnServer:sum};};
+db.csv.mapReduce(map,reduce,{out: "zapros1"}).find().sort({_id:-1})
+
+2)var map = function() { var key={URL:this.URL}; emit(key, {count: 1});};
+var reduce = function(key,values) { var sum=0; values.forEach(function(value) {sum+=value['count'];}); return{count:sum};};
+db.csv.mapReduce(map,reduce,{out: "zapros2"}).find().sort({value:-1})
+
+3)var map = function() { var key={URL:this.URL}; emit(key, {timestamp:this.timestamp, count: 1});};
+var reduce = function(key,values) { var sum=0; values.forEach(function(value) {sum+=value['count'];}); return{count:sum};};
+db.csv.mapReduce(map,reduce,{out: "zapros3",query:{timestamp:{$gt:1000,$lt:1231231232231}}}).find().sort({_id:-1,value:-1})
+
